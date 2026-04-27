@@ -3,62 +3,283 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>どうぶつ・きょうりゅう 2たくクイズ</title>
+<title>すきなものクイズ</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#fff6d9;color:#4b3b2a;font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif}
-.app{min-height:100vh;padding:12px 14px 20px;text-align:center}
-h1{margin:0;font-size:clamp(28px,7vw,52px);line-height:1.15}
-.sub{margin:8px 0 10px;font-size:clamp(18px,5vw,30px);font-weight:900}
-.stage{position:relative;width:min(94vw,760px);margin:0 auto 14px;padding:18px;border:8px solid #70c363;border-radius:34px;background:linear-gradient(#bceaff 0 56%,#a8e38b 57%);box-shadow:0 8px 0 #54a648;overflow:hidden}
-.sun{position:absolute;top:20px;left:24px;font-size:54px}.cloud{position:absolute;font-size:44px}.c1{top:25px;right:25%}.c2{top:78px;right:8%}
-.prompt{margin-top:70px;display:inline-block;background:#fff;border:6px solid #4b3b2a;border-radius:999px;box-shadow:0 6px 0 #d2a45c;padding:12px 24px;font-size:clamp(24px,6vw,40px);font-weight:900}
-.card{position:relative;margin:20px auto 12px;width:min(76vw,420px);height:min(76vw,390px);min-height:260px;background:#fffaf1;border:8px solid #4b3b2a;border-radius:36px;box-shadow:0 10px 0 #d2a45c;display:flex;align-items:center;justify-content:center}
-#target{font-size:clamp(120px,34vw,220px);line-height:1}
-.msg{min-height:54px;font-size:clamp(28px,7vw,46px);font-weight:900}
-.choices{width:min(94vw,760px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.choice{min-height:140px;border:7px solid #4b3b2a;border-radius:32px;background:#fffaf1;box-shadow:0 8px 0 #d2a45c;color:#1f72e8;font:inherit;font-weight:900;font-size:clamp(23px,6vw,38px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-.emoji{font-size:clamp(56px,15vw,100px);line-height:1}.name{white-space:nowrap}
-.next{margin-top:18px;border:6px solid #4b3b2a;border-radius:999px;background:#ffdb7d;color:#1f72e8;box-shadow:0 6px 0 #c79634;font:inherit;font-size:clamp(24px,6vw,40px);font-weight:900;padding:14px 34px}
-.score{margin-top:10px;font-size:clamp(18px,4vw,28px);font-weight:900}
-.pop{animation:pop .45s}.shake{animation:shake .45s}.sparkle:after{content:"✨";position:absolute;top:-30px;right:-22px;font-size:58px;animation:fade .8s forwards}
-@keyframes pop{50%{transform:scale(1.12) rotate(-3deg)}75%{transform:scale(1.06) rotate(3deg)}}
+body{
+  margin:0;
+  background:#fff6d9;
+  color:#4b3b2a;
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+.app{min-height:100vh;padding:10px 14px 18px;text-align:center}
+h1{margin:0;font-size:clamp(27px,7vw,50px);line-height:1.15}
+.sub{margin:6px 0 8px;font-size:clamp(18px,5vw,30px);font-weight:900}
+
+.stage{
+  position:relative;
+  width:min(94vw,760px);
+  margin:0 auto 12px;
+  padding:14px;
+  border:8px solid #70c363;
+  border-radius:34px;
+  background:linear-gradient(#bceaff 0 55%,#a8e38b 56%);
+  box-shadow:0 8px 0 #54a648;
+  overflow:hidden;
+}
+.sun{position:absolute;top:18px;left:22px;font-size:52px}
+.cloud{position:absolute;font-size:42px}.c1{top:24px;right:25%}.c2{top:74px;right:8%}
+
+.prompt{
+  margin-top:58px;
+  display:inline-block;
+  background:#fff;
+  border:6px solid #4b3b2a;
+  border-radius:28px;
+  box-shadow:0 6px 0 #d2a45c;
+  padding:12px 20px;
+  font-size:clamp(23px,5.8vw,38px);
+  font-weight:900;
+  line-height:1.2;
+}
+.card{
+  position:relative;
+  margin:16px auto 10px;
+  width:min(76vw,420px);
+  height:min(58vw,300px);
+  min-height:210px;
+  background:#fffaf1;
+  border:8px solid #4b3b2a;
+  border-radius:36px;
+  box-shadow:0 10px 0 #d2a45c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#animal{font-size:clamp(120px,34vw,210px);line-height:1}
+.msg{min-height:50px;font-size:clamp(27px,6.7vw,45px);font-weight:900}
+
+.choices{
+  width:min(94vw,760px);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.choice{
+  min-height:165px;
+  border:7px solid #4b3b2a;
+  border-radius:34px;
+  background:#fffaf1;
+  box-shadow:0 8px 0 #d2a45c;
+  color:#1f72e8;
+  font:inherit;
+  font-weight:900;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:10px;
+}
+.choice:active{transform:translateY(5px);box-shadow:0 3px 0 #d2a45c}
+.foodEmoji{font-size:clamp(74px,21vw,130px);line-height:1}
+.foodName{font-size:clamp(21px,5.5vw,36px);line-height:1.05;white-space:nowrap}
+
+.next{
+  margin-top:16px;
+  border:6px solid #4b3b2a;
+  border-radius:999px;
+  background:#ffdb7d;
+  color:#1f72e8;
+  box-shadow:0 6px 0 #c79634;
+  font:inherit;
+  font-size:clamp(23px,5.8vw,38px);
+  font-weight:900;
+  padding:13px 32px;
+}
+.score{margin-top:8px;font-size:clamp(17px,4vw,26px);font-weight:900}
+
+.pop{animation:pop .55s}
+.shake{animation:shake .45s}
+.sparkle:after{
+  content:"✨🎉✨";
+  position:absolute;
+  top:-34px;
+  right:-30px;
+  font-size:56px;
+  animation:fade .9s forwards;
+}
+.correctFlash{animation:flash .75s}
+@keyframes pop{50%{transform:scale(1.14) rotate(-3deg)}75%{transform:scale(1.06) rotate(3deg)}}
 @keyframes shake{20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
-@keyframes fade{to{opacity:0;transform:translateY(-38px) scale(1.35)}}
-@media(max-height:760px){.prompt{margin-top:48px}.card{height:245px;min-height:230px}#target{font-size:125px}.choice{min-height:112px}}
+@keyframes fade{to{opacity:0;transform:translateY(-42px) scale(1.35)}}
+@keyframes flash{0%,100%{background:#fffaf1}40%{background:#fff3a3}}
+@media(max-height:760px){
+  .prompt{margin-top:42px}
+  .card{height:215px;min-height:200px}
+  #animal{font-size:125px}
+  .choice{min-height:126px}
+  .foodEmoji{font-size:74px}
+}
 </style>
 </head>
 <body>
 <main class="app">
-<h1>どうぶつ・きょうりゅう<br>どっちかな？</h1>
-<div class="sub">おなじ なまえを えらぼう！</div>
+<h1>すきなもの<br>どっちかな？</h1>
+<div class="sub">たべものを えらぼう！</div>
+
 <section class="stage">
-<div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div>
-<div class="prompt">これは なあに？</div>
-<div class="card" id="card"><div id="target">🦁</div></div>
-<div class="msg" id="msg">えらんでね</div>
+  <div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div>
+  <div class="prompt" id="prompt">ライオンの<br>すきなものは？</div>
+  <div class="card" id="card"><div id="animal">🦁</div></div>
+  <div class="msg" id="msg">えらんでね</div>
 </section>
+
 <section class="choices">
-<button class="choice" id="a"><span class="emoji">🦁</span><span class="name">ライオン</span></button>
-<button class="choice" id="b"><span class="emoji">🐰</span><span class="name">うさぎ</span></button>
+  <button class="choice" id="a"><span class="foodEmoji">🍖</span><span class="foodName">おにく</span></button>
+  <button class="choice" id="b"><span class="foodEmoji">🥕</span><span class="foodName">にんじん</span></button>
 </section>
+
 <button class="next" id="next">つぎのもんだい</button>
 <div class="score" id="score">せいかい 0</div>
 </main>
+
 <script>
-const items=[
-["ライオン","🦁"],["うさぎ","🐰"],["ぞう","🐘"],["きょうりゅう","🦖"],["くびなが","🦕"],["たまご","🥚"],["ねこ","🐱"],["いぬ","🐶"],["ぱんだ","🐼"],["さる","🐵"],["きりん","🦒"],["ぶた","🐷"],["うま","🐴"],["とら","🐯"],["こあら","🐨"],["ひよこ","🐥"],["ぺんぎん","🐧"],["かめ","🐢"],["かえる","🐸"],["さかな","🐟"]
-].map(x=>({name:x[0],emoji:x[1]}));
+const foods=[
+ {name:"おにく",emoji:"🍖",voice:"おにく"},
+ {name:"にんじん",emoji:"🥕",voice:"にんじん"},
+ {name:"りんご",emoji:"🍎",voice:"りんご"},
+ {name:"はっぱ",emoji:"🌿",voice:"はっぱ"},
+ {name:"さかな",emoji:"🐟",voice:"さかな"},
+ {name:"バナナ",emoji:"🍌",voice:"バナナ"},
+ {name:"たまご",emoji:"🥚",voice:"たまご"},
+ {name:"チーズ",emoji:"🧀",voice:"チーズ"}
+];
+
+const questions=[
+ {animal:"ライオン",emoji:"🦁",food:"おにく"},
+ {animal:"とら",emoji:"🐯",food:"おにく"},
+ {animal:"きょうりゅう",emoji:"🦖",food:"おにく"},
+ {animal:"うさぎ",emoji:"🐰",food:"にんじん"},
+ {animal:"ぞう",emoji:"🐘",food:"りんご"},
+ {animal:"くびなが",emoji:"🦕",food:"はっぱ"},
+ {animal:"きりん",emoji:"🦒",food:"はっぱ"},
+ {animal:"ぱんだ",emoji:"🐼",food:"はっぱ"},
+ {animal:"ねこ",emoji:"🐱",food:"さかな"},
+ {animal:"さかな",emoji:"🐟",food:"はっぱ"},
+ {animal:"いぬ",emoji:"🐶",food:"おにく"},
+ {animal:"さる",emoji:"🐵",food:"バナナ"},
+ {animal:"ひよこ",emoji:"🐥",food:"たまご"},
+ {animal:"ねずみ",emoji:"🐭",food:"チーズ"},
+ {animal:"かめ",emoji:"🐢",food:"はっぱ"},
+ {animal:"ぶた",emoji:"🐷",food:"りんご"}
+];
+
 let cur,score=0,answered=false,audioCtx=null;
-const target=document.getElementById("target"),card=document.getElementById("card"),msg=document.getElementById("msg"),scoreEl=document.getElementById("score"),btns=[document.getElementById("a"),document.getElementById("b")];
-function initAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==="suspended")audioCtx.resume()}
-function tone(f,d=.09,type="sine",v=.06,delay=0){initAudio();let t=audioCtx.currentTime+delay,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+d+.03)}
-function sound(k){try{if(k==="ok"){tone(660,.08,"triangle",.07);tone(880,.08,"triangle",.07,.08);tone(1180,.13,"triangle",.06,.16)}else if(k==="ng"){tone(240,.1,"sine",.045);tone(190,.12,"sine",.04,.11)}else{tone(560,.06,"sine",.04);tone(760,.06,"sine",.035,.06)}}catch(e){}}
-function speak(t){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="ja-JP";u.rate=.82;u.pitch=1.65;u.volume=.95;speechSynthesis.speak(u)}
-function setBtn(btn,item){btn.dataset.name=item.name;btn.querySelector(".emoji").textContent=item.emoji;btn.querySelector(".name").textContent=item.name}
+const promptEl=document.getElementById("prompt");
+const animalEl=document.getElementById("animal");
+const card=document.getElementById("card");
+const msg=document.getElementById("msg");
+const scoreEl=document.getElementById("score");
+const btns=[document.getElementById("a"),document.getElementById("b")];
+
+function initAudio(){
+  if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==="suspended") audioCtx.resume();
+}
+function tone(f,d=.09,type="sine",v=.08,delay=0){
+  initAudio();
+  const t=audioCtx.currentTime+delay;
+  const o=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  o.type=type;
+  o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(v,t+.01);
+  g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(t); o.stop(t+d+.04);
+}
+function sound(k){
+  try{
+    if(k==="ok"){
+      tone(660,.08,"triangle",.10,0);
+      tone(880,.08,"triangle",.10,.08);
+      tone(1100,.09,"triangle",.09,.16);
+      tone(1320,.12,"triangle",.09,.25);
+      tone(1760,.18,"sine",.07,.38);
+    }else if(k==="ng"){
+      tone(260,.12,"sine",.055,0);
+      tone(200,.16,"sine",.045,.12);
+    }else if(k==="choice"){
+      tone(520,.06,"sine",.05,0);
+      tone(760,.07,"sine",.045,.06);
+    }else if(k==="next"){
+      tone(600,.05,"sine",.04,0);
+      tone(820,.06,"sine",.04,.06);
+    }
+  }catch(e){}
+}
+function speak(t){
+  if(!("speechSynthesis" in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t);
+  u.lang="ja-JP";
+  u.rate=.78;
+  u.pitch=1.72;
+  u.volume=.96;
+  speechSynthesis.speak(u);
+}
 function shuffle(x){return [...x].sort(()=>Math.random()-.5)}
-function nextQ(){answered=false;msg.textContent="えらんでね";card.className="card";cur=items[Math.floor(Math.random()*items.length)];let wrong=items.filter(i=>i.name!==cur.name);wrong=wrong[Math.floor(Math.random()*wrong.length)];let ch=shuffle([cur,wrong]);target.textContent=cur.emoji;setBtn(btns[0],ch[0]);setBtn(btns[1],ch[1]);sound("next");speak("これは、なあに？")}
-function answer(btn){initAudio();if(answered)return;if(btn.dataset.name===cur.name){answered=true;score++;scoreEl.textContent="せいかい "+score;msg.textContent="せいかい！";card.className="card pop sparkle";sound("ok");speak("せいかい！ "+cur.name+"！");setTimeout(nextQ,1400)}else{msg.textContent="もういっかい";card.className="card shake";sound("ng");speak("もういっかい");setTimeout(()=>card.className="card",550)}}
+function foodByName(name){return foods.find(f=>f.name===name)}
+function setBtn(btn,food){
+  btn.dataset.name=food.name;
+  btn.dataset.voice=food.voice;
+  btn.querySelector(".foodEmoji").textContent=food.emoji;
+  btn.querySelector(".foodName").textContent=food.name;
+}
+function nextQ(){
+  answered=false;
+  msg.textContent="えらんでね";
+  card.className="card";
+  cur=questions[Math.floor(Math.random()*questions.length)];
+  const correct=foodByName(cur.food);
+  const wrongList=foods.filter(f=>f.name!==cur.food);
+  const wrong=wrongList[Math.floor(Math.random()*wrongList.length)];
+  const ch=shuffle([correct,wrong]);
+  animalEl.textContent=cur.emoji;
+  promptEl.innerHTML=cur.animal+"の<br>すきなものは？";
+  setBtn(btns[0],ch[0]);
+  setBtn(btns[1],ch[1]);
+  sound("next");
+  speak(cur.animal+"の、すきなものは？");
+}
+function answer(btn){
+  initAudio();
+  if(answered)return;
+  sound("choice");
+  speak(btn.dataset.voice);
+  setTimeout(()=>{
+    if(answered)return;
+    if(btn.dataset.name===cur.food){
+      answered=true;
+      score++;
+      scoreEl.textContent="せいかい "+score;
+      msg.textContent="もぐもぐ！";
+      card.className="card pop sparkle correctFlash";
+      sound("ok");
+      speak("やったー！ "+cur.animal+"は "+cur.food+"が すき！");
+      setTimeout(nextQ,1900);
+    }else{
+      msg.textContent="ちがうよ";
+      card.className="card shake";
+      sound("ng");
+      speak("ちがうよ。もういっかい");
+      setTimeout(()=>{card.className="card";msg.textContent="もういっかい"},750);
+    }
+  },520);
+}
 btns.forEach(b=>b.addEventListener("click",()=>answer(b)));
 document.getElementById("next").addEventListener("click",nextQ);
 nextQ();
