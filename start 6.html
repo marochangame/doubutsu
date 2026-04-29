@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>すきなものクイズ</title>
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+background:linear-gradient(#fff3c0,#ffd6e7);
+text-align:center;
+}
+h1{font-size:32px;margin-top:20px;}
+.start{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:20px;
+}
+button{
+font-size:28px;
+padding:15px 30px;
+border-radius:30px;
+border:none;
+background:#ff8fb3;
+color:white;
+}
+.sparkle{
+position:absolute;
+font-size:30px;
+animation:pop 1s forwards;
+}
+@keyframes pop{
+0%{opacity:0;transform:scale(0.5);}
+50%{opacity:1;}
+100%{opacity:0;transform:scale(1.5) translateY(-50px);}
+}
+</style>
+</head>
+<body>
+
+<div class="start" id="start">
+<h1>ぼくのすきなもの<br>どっちかなぁ？？</h1>
+<button onclick="startGame()">スタート</button>
+</div>
+
+<script>
+function speak(text){
+return new Promise(resolve=>{
+const u = new SpeechSynthesisUtterance(text);
+u.lang = "ja-JP";
+u.pitch = 2.1;   // 高くした
+u.rate = 0.95;  // ゆっくり
+u.onend = resolve;
+speechSynthesis.speak(u);
+setTimeout(resolve,3000);
+});
+}
+
+function sparkle(){
+for(let i=0;i<12;i++){
+const s=document.createElement("div");
+s.className="sparkle";
+s.textContent="✨";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1000);
+}
+}
+
+async function startGame(){
+sparkle();
+await speak("ぼくのすきなもの、どっちかなぁ？");
+window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>
