@@ -1,34 +1,45 @@
 const questions = [
- { animal:"ライオン", face:"🦁", answer:"おにく", food:"🍖", choices:["おにく","にんじん"] },
- { animal:"うさぎ", face:"🐰", answer:"にんじん", food:"🥕", choices:["にんじん","さかな"] },
- { animal:"ねこ", face:"🐱", answer:"さかな", food:"🐟", choices:["バナナ","さかな"] },
- { animal:"いぬ", face:"🐶", answer:"ほね", food:"🦴", choices:["ほね","はっぱ"] },
- { animal:"さる", face:"🐵", answer:"バナナ", food:"🍌", choices:["バナナ","おにく"] },
- { animal:"パンダ", face:"🐼", answer:"たけ", food:"🎋", choices:["たけ","チーズ"] },
- { animal:"ぞう", face:"🐘", answer:"りんご", food:"🍎", choices:["りんご","さかな"] },
- { animal:"きょうりゅう", face:"🦖", answer:"おにく", food:"🍖", choices:["おにく","にんじん"] },
- { animal:"ひよこ", face:"🐥", answer:"まめ", food:"🫘", choices:["まめ","ほね"] },
- { animal:"こあら", face:"🐨", answer:"はっぱ", food:"🌿", choices:["はっぱ","さかな"] },
- { animal:"ぶた", face:"🐷", answer:"りんご", food:"🍎", choices:["りんご","たけ"] },
- { animal:"かえる", face:"🐸", answer:"むし", food:"🐛", choices:["むし","バナナ"] },
- { animal:"ぺんぎん", face:"🐧", answer:"さかな", food:"🐟", choices:["さかな","にんじん"] },
- { animal:"りす", face:"🐿️", answer:"どんぐり", food:"🌰", choices:["どんぐり","おにく"] },
- { animal:"うし", face:"🐮", answer:"くさ", food:"🌱", choices:["くさ","さかな"] },
- { animal:"うま", face:"🐴", answer:"にんじん", food:"🥕", choices:["にんじん","むし"] },
- { animal:"くま", face:"🐻", answer:"はちみつ", food:"🍯", choices:["はちみつ","たけ"] },
- { animal:"にわとり", face:"🐔", answer:"まめ", food:"🫘", choices:["まめ","ほね"] },
- { animal:"きりん", face:"🦒", answer:"はっぱ", food:"🌿", choices:["はっぱ","さかな"] },
- { animal:"とら", face:"🐯", answer:"おにく", food:"🍖", choices:["おにく","バナナ"] }
+  { animal:"ライオン", face:"", answer:"おにく", food:"", choices:["おにく","バナナ"] },
+  { animal:"うさぎ", face:"", answer:"にんじん", food:"", choices:["にんじん","さかな"] },
+  { animal:"ねこ", face:"", answer:"さかな", food:"", choices:["バナナ","さかな"] },
+  { animal:"いぬ", face:"", answer:"ほね", food:"", choices:["ほね","はっぱ"] },
+  { animal:"さる", face:"", answer:"バナナ", food:"", choices:["バナナ","おにく"] },
+  { animal:"パンダ", face:"", answer:"たけ", food:"", choices:["たけ","チーズ"] },
+  { animal:"ぞう", face:"", answer:"りんご", food:"", choices:["りんご","さかな"] },
+  { animal:"きょうりゅう", face:"", answer:"おにく", food:"", choices:["おにく","にんじん"] },
+  { animal:"ひよこ", face:"", answer:"まめ", food:"", choices:["まめ","ほね"] },
+  { animal:"こあら", face:"", answer:"はっぱ", food:"", choices:["はっぱ","さかな"] },
+  { animal:"ぶた", face:"", answer:"りんご", food:"", choices:["りんご","たけ"] },
+  { animal:"かえる", face:"", answer:"むし", food:"", choices:["むし","バナナ"] },
+  { animal:"ぺんぎん", face:"", answer:"さかな", food:"", choices:["さかな","にんじん"] },
+  { animal:"りす", face:"", answer:"どんぐり", food:"", choices:["どんぐり","おにく"] },
+  { animal:"うし", face:"", answer:"くさ", food:"", choices:["くさ","さかな"] },
+  { animal:"うま", face:"", answer:"にんじん", food:"", choices:["にんじん","むし"] },
+  { animal:"くま", face:"", answer:"はちみつ", food:"", choices:["はちみつ","たけ"] },
+  { animal:"にわとり", face:"", answer:"まめ", food:"", choices:["まめ","ほね"] },
+  { animal:"きりん", face:"", answer:"はっぱ", food:"", choices:["はっぱ","さかな"] },
+  { animal:"とら", face:"", answer:"おにく", food:"", choices:["おにく","バナナ"] }
 ];
 
-const comboWords = { 2: "いいね！✨", 3: "すごい！", 4: "ナイス！", 5: "天才！", 6: "やばい！⚡", 7: "プロ！", 8: "レジェンド！", 9: "バケモン！", 10: "神！！！✨" };
+const comboWords = {
+  2: "いいね！✨",
+  3: "すごい！",
+  4: "ナイス！",
+  5: "天才！",
+  6: "やばい！⚡",
+  7: "プロ！",
+  8: "レジェンド！",
+  9: "バケモン！",
+  10: "神！！！✨"
+};
 
 let index = 0;
 let score = 0;
 let combo = 0;
 let locked = false;
-let audioReady = false;
-let audioCtx;
+let audioCtx = null;
+let audioUnlocked = false;
+let started = false;
 
 const game = document.getElementById("game");
 const animal = document.getElementById("animal");
@@ -44,102 +55,147 @@ const sparkles = document.getElementById("sparkles");
 const nextBtn = document.getElementById("nextBtn");
 const final = document.getElementById("final");
 const continueBtn = document.getElementById("continueBtn");
+const startBtn = document.getElementById("startBtn") || document.querySelector(".startBtn, .start button, button");
+const startScreen = document.getElementById("start") || document.getElementById("startScreen") || document.querySelector(".start, .startScreen, .intro");
 
-function audio() {
+function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   if (!AudioContextClass) return null;
   if (!audioCtx) audioCtx = new AudioContextClass();
-  if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
   return audioCtx;
 }
 
 function unlockAudio() {
-  const ctx = audio();
-  if (!ctx || audioReady) return;
-  const buffer = ctx.createBuffer(1, 1, 22050);
-  const source = ctx.createBufferSource();
-  source.buffer = buffer;
-  source.connect(ctx.destination);
-  try { source.start(0); } catch(e) {}
-  audioReady = true;
+  const ctx = getAudioContext();
+  if (ctx) {
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    try {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.025);
+    } catch (e) {}
+  }
+  audioUnlocked = true;
 }
 
-["pointerdown", "touchstart", "mousedown", "keydown"].forEach(type => {
-  document.addEventListener(type, unlockAudio, { once: true, passive: true });
+function keepAudioAlive() {
+  if (!audioCtx) return;
+  if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+}
+
+["pointerdown", "touchstart", "mousedown", "keydown", "click"].forEach(type => {
+  document.addEventListener(type, () => {
+    unlockAudio();
+    keepAudioAlive();
+  }, { passive: true });
 });
 
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+  if (!document.hidden) keepAudioAlive();
 });
 
-function tone(freq, start, duration, type="sine", gain=.18) {
-  const ctx = audio();
+function tone(freq, start, duration, type = "sine", gainValue = 0.18) {
+  const ctx = getAudioContext();
   if (!ctx) return;
+  keepAudioAlive();
   const now = ctx.currentTime;
   const osc = ctx.createOscillator();
-  const vol = ctx.createGain();
+  const gain = ctx.createGain();
   osc.type = type;
   osc.frequency.setValueAtTime(freq, now + start);
-  vol.gain.setValueAtTime(0.0001, now + start);
-  vol.gain.exponentialRampToValueAtTime(gain, now + start + 0.018);
-  vol.gain.exponentialRampToValueAtTime(0.0001, now + start + duration);
-  osc.connect(vol);
-  vol.connect(ctx.destination);
+  gain.gain.setValueAtTime(0.0001, now + start);
+  gain.gain.exponentialRampToValueAtTime(gainValue, now + start + 0.018);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + start + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
   osc.start(now + start);
   osc.stop(now + start + duration + 0.04);
 }
 
+function speak(text) {
+  if (!window.speechSynthesis || !text) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "ja-JP";
+    utter.rate = 0.86;
+    utter.pitch = 1.55;
+    utter.volume = 1;
+    window.speechSynthesis.speak(utter);
+  } catch (e) {}
+}
+
 function correctSound(level) {
   unlockAudio();
-  tone(660, 0, .16, "triangle", .22);
-  tone(880, .10, .18, "triangle", .24);
-  tone(1320, .22, .22, "sine", .18);
+  tone(660, 0, .16, "triangle", .24);
+  tone(880, .10, .18, "triangle", .25);
+  tone(1320, .22, .22, "sine", .20);
   if (level >= 3) {
-    tone(1560, .33, .18, "sine", .14);
-    tone(1760, .42, .18, "sine", .12);
+    tone(1560, .33, .18, "sine", .15);
+    tone(1760, .42, .18, "sine", .13);
   }
   if (level >= 5) {
-    tone(440, 0, .12, "square", .09);
-    tone(990, .05, .25, "triangle", .15);
+    tone(440, 0, .12, "square", .10);
+    tone(990, .05, .25, "triangle", .16);
   }
 }
 
 function wrongSound() {
   unlockAudio();
-  tone(240, 0, .16, "sawtooth", .08);
-  tone(180, .12, .18, "sawtooth", .06);
+  tone(240, 0, .16, "sawtooth", .09);
+  tone(180, .12, .18, "sawtooth", .07);
 }
 
-function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
-function currentQuestion() { return questions[index % questions.length]; }
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function currentQuestion() {
+  return questions[index % questions.length];
+}
 
 function renderQuestion() {
   locked = false;
   const q = currentQuestion();
-  animal.textContent = q.face;
-  qAnimal.textContent = `${q.animal}の`;
-  message.textContent = "えらんでね";
-  comboMessage.textContent = "";
-  comboMessage.classList.remove("show");
-  foodFly.textContent = q.food;
-  choices.innerHTML = "";
-  shuffle(q.choices).forEach(choice => {
-    const btn = document.createElement("button");
-    btn.className = "choice";
-    btn.type = "button";
-    btn.innerHTML = `<span class="emoji">${choice === q.answer ? q.food : choiceEmoji(choice)}</span>${choice}`;
-    btn.addEventListener("pointerdown", unlockAudio, { once: true });
-    btn.addEventListener("click", () => choose(choice, btn));
-    choices.appendChild(btn);
-  });
+  if (animal) animal.textContent = q.face;
+  if (qAnimal) qAnimal.textContent = `${q.animal} の`;
+  if (message) message.textContent = "えらんでね";
+  if (comboMessage) {
+    comboMessage.textContent = "";
+    comboMessage.classList.remove("show");
+  }
+  if (foodFly) foodFly.textContent = q.food;
+  if (choices) {
+    choices.innerHTML = "";
+    shuffle(q.choices).forEach(choice => {
+      const btn = document.createElement("button");
+      btn.className = "choice";
+      btn.type = "button";
+      btn.textContent = `${choiceEmoji(choice)}${choice}`;
+      btn.addEventListener("pointerdown", unlockAudio);
+      btn.addEventListener("touchstart", unlockAudio, { passive: true });
+      btn.addEventListener("click", () => choose(choice, btn));
+      choices.appendChild(btn);
+    });
+  }
+  if (started) setTimeout(() => speak("どっちが好き？"), 120);
 }
 
 function choiceEmoji(word) {
-  const map = { "おにく":"🍖","にんじん":"🥕","さかな":"🐟","ほね":"🦴","バナナ":"🍌", "たけ":"🎋","りんご":"🍎","まめ":"🫘","はっぱ":"🌿","むし":"🐛", "どんぐり":"🌰","くさ":"🌱","はちみつ":"🍯","チーズ":"🧀" };
-  return map[word] || "❔";
+  const map = {
+    "おにく":"", "にんじん":"", "さかな":"", "ほね":"", "バナナ":"",
+    "たけ":"", "りんご":"", "まめ":"", "はっぱ":"", "むし":"",
+    "どんぐり":"", "くさ":"", "はちみつ":"", "チーズ":""
+  };
+  return map[word] || "";
 }
 
 function resetAnim(el, className) {
+  if (!el) return;
   el.classList.remove(className);
   void el.offsetWidth;
   el.classList.add(className);
@@ -147,58 +203,93 @@ function resetAnim(el, className) {
 
 function choose(choice, btn) {
   unlockAudio();
+  keepAudioAlive();
   if (locked) return;
   locked = true;
   const q = currentQuestion();
+
   if (choice === q.answer) {
     score++;
     combo++;
-    scoreEl.textContent = score;
-    comboEl.textContent = `コンボ ${combo}`;
+    if (scoreEl) scoreEl.textContent = score;
+    if (comboEl) comboEl.textContent = `コンボ ${combo}`;
     const level = Math.min(combo, 10);
     correctSound(level);
-    message.textContent = "やったー！";
-    btn.classList.add("correctFlash");
-    game.classList.add("flash");
+    if (message) message.textContent = "やったー！";
+    if (btn) btn.classList.add("correctFlash");
+    if (game) game.classList.add("flash");
     resetAnim(animal, level >= 5 ? "superJump" : "jump");
     resetAnim(foodFly, level >= 5 ? "megaFly" : "fly");
     resetAnim(eatText, "show");
     resetAnim(sparkles, "show");
-    if (comboWords[level]) {
+
+    if (comboMessage && comboWords[level]) {
       comboMessage.textContent = comboWords[level];
       resetAnim(comboMessage, "show");
     }
-    setTimeout(() => game.classList.remove("flash"), 420);
+
+    setTimeout(() => { if (game) game.classList.remove("flash"); }, 420);
+
     if (combo >= 10) {
-      setTimeout(() => { final.classList.add("show"); }, 620);
+      setTimeout(() => {
+        speak("すごーい。10問できたね。");
+        if (final) final.classList.add("show");
+      }, 620);
       return;
     }
+
     setTimeout(nextQuestion, 950);
   } else {
     combo = 0;
-    comboEl.textContent = "コンボ 0";
-    message.textContent = "もういっかい！";
+    if (comboEl) comboEl.textContent = "コンボ 0";
+    if (message) message.textContent = "もういっかい！";
     wrongSound();
-    btn.classList.add("wrongShake");
-    animal.classList.add("jump");
+    if (btn) btn.classList.add("wrongShake");
+    if (animal) animal.classList.add("jump");
     setTimeout(() => {
-      btn.classList.remove("wrongShake");
-      animal.classList.remove("jump");
+      if (btn) btn.classList.remove("wrongShake");
+      if (animal) animal.classList.remove("jump");
       locked = false;
     }, 520);
   }
 }
 
-function nextQuestion() { index++; renderQuestion(); }
+function nextQuestion() {
+  index++;
+  renderQuestion();
+}
 
-nextBtn.addEventListener("pointerdown", unlockAudio, { once: true });
-nextBtn.addEventListener("click", nextQuestion);
-continueBtn.addEventListener("pointerdown", unlockAudio, { once: true });
-continueBtn.addEventListener("click", () => {
-  final.classList.remove("show");
-  combo = 0;
-  comboEl.textContent = "コンボ 0";
-  nextQuestion();
-});
+function startGame() {
+  unlockAudio();
+  keepAudioAlive();
+  started = true;
+  if (startScreen) startScreen.style.display = "none";
+  speak("どっちかなぁ？");
+  setTimeout(() => speak("どっちが好き？"), 900);
+}
+
+if (nextBtn) {
+  nextBtn.addEventListener("pointerdown", unlockAudio);
+  nextBtn.addEventListener("click", nextQuestion);
+}
+
+if (continueBtn) {
+  continueBtn.addEventListener("pointerdown", unlockAudio);
+  continueBtn.addEventListener("click", () => {
+    unlockAudio();
+    if (final) final.classList.remove("show");
+    combo = 0;
+    if (comboEl) comboEl.textContent = "コンボ 0";
+    nextQuestion();
+  });
+}
+
+if (startBtn) {
+  startBtn.addEventListener("pointerdown", unlockAudio);
+  startBtn.addEventListener("touchstart", unlockAudio, { passive: true });
+  startBtn.addEventListener("click", startGame);
+} else {
+  started = true;
+}
 
 renderQuestion();
