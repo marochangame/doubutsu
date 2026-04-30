@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
- <title>どうぶつの すきなもの あてっこ</title>
- <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="すきなもの" />
+<title>どうぶつの すきなもの あてっこ</title>
+<style>
+  :root{
+    --bg1:#fff7d6; --bg2:#dff7ff; --card:#fffefa; --main:#ff8fb3; --accent:#7bd88f; --text:#4b3b35;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+  body{margin:0;min-height:100svh;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--text);background:linear-gradient(180deg,var(--bg2),var(--bg1));overflow:hidden}
+  .sky{position:fixed;inset:0;pointer-events:none;z-index:0}.sun{position:absolute;top:20px;right:24px;font-size:54px;filter:drop-shadow(0 4px 0 rgba(255,180,0,.25))}.cloud{position:absolute;font-size:44px;opacity:.9;animation:float 9s ease-in-out infinite}.cloud.c1{top:54px;left:18px}.cloud.c2{top:120px;right:28px;animation-delay:1.2s}.cloud.c3{bottom:130px;left:18px;animation-delay:2.4s}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .app{position:relative;z-index:1;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:18px}.card{width:min(430px,100%);background:rgba(255,255,255,.88);border:5px solid #fff;border-radius:32px;box-shadow:0 18px 40px rgba(86,58,30,.15);padding:18px;text-align:center;backdrop-filter:blur(6px)}
+  h1{margin:4px 0 8px;font-size:30px;line-height:1.1;color:#ff6fa0;text-shadow:0 3px 0 #fff}.sub{font-weight:800;font-size:17px;margin-bottom:12px;color:#6b5a51}.row{display:flex;justify-content:space-between;gap:10px;margin:8px 0 12px}.badge{flex:1;background:#fff;border:3px solid #ffe2a6;border-radius:18px;padding:8px;font-weight:900;font-size:16px}.question{background:#fff5fb;border:4px solid #ffd1e1;border-radius:28px;padding:14px;margin:10px 0 12px}.animal{font-size:76px;line-height:1}.qtext{font-size:28px;font-weight:900;line-height:1.25;margin-top:4px}.hint{font-size:16px;font-weight:800;color:#8b7b72;margin-top:3px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.choice{border:0;border-radius:26px;background:#fff;border:5px solid #fff0b7;box-shadow:0 8px 0 #f0c76b,0 12px 18px rgba(0,0,0,.10);padding:12px 6px 14px;min-height:132px;font:inherit;font-weight:900;color:var(--text);cursor:pointer;transition:.08s transform,.08s box-shadow}.choice:active{transform:translateY(7px);box-shadow:0 1px 0 #f0c76b}.choice[disabled]{opacity:.72;pointer-events:none}.food{font-size:58px;display:block;line-height:1}.fname{font-size:21px;display:block;margin-top:4px}.message{min-height:46px;font-size:25px;font-weight:1000;margin-top:13px;color:#ff6fa0}.next{display:none;margin:8px auto 0;border:0;border-radius:999px;background:linear-gradient(180deg,#8ee89f,#55cc70);color:white;font-size:23px;font-weight:1000;padding:13px 28px;box-shadow:0 8px 0 #34a74f}.next:active{transform:translateY(6px);box-shadow:0 2px 0 #34a74f}.startCover{position:fixed;inset:0;z-index:5;background:linear-gradient(180deg,#dff7ff,#fff7d6);display:flex;align-items:center;justify-content:center;padding:22px;text-align:center}.startBox{width:min(430px,100%);background:white;border-radius:34px;border:5px solid #fff;box-shadow:0 18px 40px rgba(86,58,30,.16);padding:26px 18px}.bigAnimal{font-size:86px}.startTitle{font-size:31px;font-weight:1000;color:#ff6fa0;line-height:1.15}.startBtn{margin-top:20px;border:0;border-radius:999px;background:linear-gradient(180deg,#ff9dbc,#ff6f9f);color:white;font-size:26px;font-weight:1000;padding:15px 34px;box-shadow:0 8px 0 #d94e7c}.pop{animation:pop .42s ease both}@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}.shake{animation:shake .35s ease both}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}.spark{position:fixed;font-size:34px;z-index:4;animation:spark .85s ease-out forwards;pointer-events:none}@keyframes spark{to{transform:translateY(-80px) scale(1.6);opacity:0}}
+</style>
 </head>
 <body>
- <main class="game" id="game">
-  <div class="sky">
-   <div class="sun">☀️</div>
-   <div class="cloud c1">☁️</div>
-   <div class="cloud c2">☁️</div>
-  </div>
-  <section class="top">
-   <h1>すきなもの あてっこ</h1>
-   <p class="sub">どうぶつの すきなものを えらぼう！</p>
-  </section>
-  <section class="comboBox">
-   <div class="score">せいかい <span id="score">0</span></div>
-   <div class="combo" id="combo">コンボ 0</div>
-  </section>
-  <section class="stage">
-   <div class="animalWrap" id="animalWrap">
-    <div class="animal" id="animal"></div>
-    <div class="eatText" id="eatText">パクッ！</div>
-   </div>
-   <div class="foodFly" id="foodFly"></div>
-   <div class="sparkles" id="sparkles">✨✨✨</div>
-  </section>
-  <section class="question">
-   <div class="qAnimal" id="qAnimal">ライオンの</div>
-   <div class="qText">すきなものは？</div>
-   <div class="message" id="message">えらんでね</div>
-   <div class="comboMessage" id="comboMessage"></div>
-  </section>
-  <section class="choices" id="choices"></section>
-  <button class="nextBtn" id="nextBtn" type="button">つぎのもんだい</button>
-  <div class="final" id="final">
-   <div class="finalInner">
-    <div class="big">✨</div>
-    <div class="finalTitle">10コンボ！</div>
-    <div class="finalText">すごすぎる！！</div>
-    <button id="continueBtn" type="button">つづける</button>
-   </div>
-  </div>
- </main>
- <script src="script.js"></script>
+<div class="sky"><div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div><div class="cloud c3">☁️</div></div>
+<div class="startCover" id="startCover"><div class="startBox"><div class="bigAnimal">🦁🐰🐼</div><div class="startTitle">すきなもの<br>あてっこ</div><div class="sub">どうぶつの すきなものを えらぼう！</div><button class="startBtn" id="startBtn">はじめる</button></div></div>
+<main class="app"><section class="card"><h1>すきなもの あてっこ</h1><div class="sub">どうぶつの すきなものを えらぼう！</div><div class="row"><div class="badge">せいかい <span id="score">0</span></div><div class="badge">コンボ <span id="combo">0</span></div></div><div class="question" id="questionBox"><div class="animal" id="animal">🦁</div><div class="qtext"><span id="animalName">ライオン</span>の<br>すきなものは？</div><div class="hint" id="hint">えらんでね</div></div><div class="choices"><button class="choice" id="leftChoice"><span class="food" id="leftEmoji">🥩</span><span class="fname" id="leftName">おにく</span></button><button class="choice" id="rightChoice"><span class="food" id="rightEmoji">🍌</span><span class="fname" id="rightName">バナナ</span></button></div><div class="message" id="message"></div><button class="next" id="nextBtn">つぎのもんだい</button></section></main>
+<script>
+'use strict';
+const questions=[
+ {a:'ライオン',e:'🦁',ok:{e:'🥩',n:'おにく'},ng:{e:'🍌',n:'バナナ'}},{a:'うさぎ',e:'🐰',ok:{e:'🥕',n:'にんじん'},ng:{e:'🍣',n:'おすし'}},{a:'ねこ',e:'🐱',ok:{e:'🐟',n:'おさかな'},ng:{e:'🍰',n:'ケーキ'}},{a:'いぬ',e:'🐶',ok:{e:'🦴',n:'ほね'},ng:{e:'🍦',n:'アイス'}},{a:'パンダ',e:'🐼',ok:{e:'🎋',n:'ささ'},ng:{e:'🍕',n:'ピザ'}},{a:'さる',e:'🐵',ok:{e:'🍌',n:'バナナ'},ng:{e:'🥦',n:'ブロッコリー'}},{a:'ぞう',e:'🐘',ok:{e:'🍎',n:'りんご'},ng:{e:'🍟',n:'ポテト'}},{a:'きょうりゅう',e:'🦖',ok:{e:'🥩',n:'おにく'},ng:{e:'🍩',n:'ドーナツ'}},{a:'くびながさん',e:'🦕',ok:{e:'🌿',n:'はっぱ'},ng:{e:'🍗',n:'チキン'}},{a:'こあら',e:'🐨',ok:{e:'🌿',n:'ユーカリ'},ng:{e:'🍜',n:'ラーメン'}},{a:'りす',e:'🐿️',ok:{e:'🌰',n:'どんぐり'},ng:{e:'🍙',n:'おにぎり'}},{a:'くま',e:'🐻',ok:{e:'🍯',n:'はちみつ'},ng:{e:'🧀',n:'チーズ'}},{a:'ぺんぎん',e:'🐧',ok:{e:'🐟',n:'おさかな'},ng:{e:'🥕',n:'にんじん'}},{a:'かめ',e:'🐢',ok:{e:'🥬',n:'やさい'},ng:{e:'🍫',n:'チョコ'}},{a:'ひよこ',e:'🐥',ok:{e:'🌽',n:'とうもろこし'},ng:{e:'🍤',n:'えび'}},{a:'ぶた',e:'🐷',ok:{e:'🍠',n:'おいも'},ng:{e:'🍧',n:'かきごおり'}},{a:'うま',e:'🐴',ok:{e:'🌾',n:'くさ'},ng:{e:'🍪',n:'クッキー'}},{a:'きりん',e:'🦒',ok:{e:'🌿',n:'はっぱ'},ng:{e:'🍔',n:'ハンバーガー'}},{a:'たまご',e:'🥚',ok:{e:'🐣',n:'ひよこ'},ng:{e:'🍅',n:'トマト'}},{a:'とり',e:'🐦',ok:{e:'🌽',n:'つぶつぶ'},ng:{e:'🍛',n:'カレー'}}
+];
+let order=[],idx=0,score=0,combo=0,current=null,accepting=false,voiceReady=false;
+const $=id=>document.getElementById(id);
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
+function setChoice(btn,item,isOk){btn.dataset.ok=isOk?'1':'0';btn.querySelector('.food').textContent=item.e;btn.querySelector('.fname').textContent=item.n;}
+function setChoicesEnabled(v){$('leftChoice').disabled=!v;$('rightChoice').disabled=!v;accepting=v;}
+function pickVoice(){const vs=speechSynthesis.getVoices();return vs.find(v=>/ja|Japan|Kyoko|Otoya|Siri/i.test(v.lang+v.name))||vs[0]||null;}
+function speak(text,{wait=true}={}){return new Promise(resolve=>{try{if(!('speechSynthesis'in window)){resolve();return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.pitch=1.45;u.rate=0.92;u.volume=1;const v=pickVoice();if(v)u.voice=v;let done=false;const finish=()=>{if(done)return;done=true;resolve();};u.onend=finish;u.onerror=finish;speechSynthesis.speak(u);if(!wait)setTimeout(finish,80);setTimeout(finish,3600);}catch(e){resolve();}});}
+function beep(type='ok'){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const now=ctx.currentTime;const notes=type==='ok'?[660,880,1040]:[180,130];notes.forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;o.connect(g);g.connect(ctx.destination);g.gain.setValueAtTime(0.0001,now+i*.11);g.gain.exponentialRampToValueAtTime(type==='ok'?0.22:0.15,now+i*.11+.015);g.gain.exponentialRampToValueAtTime(0.0001,now+i*.11+.105);o.start(now+i*.11);o.stop(now+i*.11+.12);});setTimeout(()=>ctx.close(),650);}catch(e){}}
+function spark(){for(let i=0;i<10;i++){const s=document.createElement('div');s.className='spark';s.textContent=['✨','🌟','💖','🎉'][Math.floor(Math.random()*4)];s.style.left=(20+Math.random()*60)+'vw';s.style.top=(45+Math.random()*30)+'vh';document.body.appendChild(s);setTimeout(()=>s.remove(),900);}}
+async function showQuestion(){setChoicesEnabled(false);$('message').textContent='';$('nextBtn').style.display='none';$('questionBox').classList.remove('pop','shake');if(idx>=order.length){order=shuffle(questions);idx=0;}current=order[idx++];$('animal').textContent=current.e;$('animalName').textContent=current.a;$('hint').textContent='えらんでね';const leftOk=Math.random()<.5;setChoice($('leftChoice'),leftOk?current.ok:current.ng,leftOk);setChoice($('rightChoice'),leftOk?current.ng:current.ok,!leftOk);await speak('どっちが好き？',{wait:true});setChoicesEnabled(true);}
+async function answer(btn){if(!accepting)return;setChoicesEnabled(false);const ok=btn.dataset.ok==='1';if(ok){score++;combo++;$('score').textContent=score;$('combo').textContent=combo;$('message').textContent=combo>0&&combo%10===0?'✨10コンボ！すごすぎる！！':'パクッ！ あたりっ！';$('questionBox').classList.add('pop');spark();beep('ok');speak('あたりっ',{wait:false});if(combo>0&&combo%10===0)setTimeout(()=>speak('すごすぎる！',{wait:false}),450);}else{combo=0;$('combo').textContent=combo;$('message').textContent='もういっかい！';$('questionBox').classList.add('shake');beep('ng');speak('もういっかい',{wait:false});}
+ setTimeout(()=>{$('nextBtn').style.display='inline-block';},520);}
+$('leftChoice').addEventListener('click',()=>answer($('leftChoice')));$('rightChoice').addEventListener('click',()=>answer($('rightChoice')));$('nextBtn').addEventListener('click',showQuestion);
+$('startBtn').addEventListener('click',async()=>{try{speechSynthesis.getVoices();}catch(e){}voiceReady=true;$('startCover').style.display='none';order=shuffle(questions);await speak('どっちかなぁ？',{wait:true});showQuestion();});
+if('speechSynthesis'in window){speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
+setChoicesEnabled(false);
+</script>
 </body>
 </html>
